@@ -1,4 +1,7 @@
 /*CSS*/
+/* Estilos (em classe) para o curso de Ciência da Computação */
+/*Observação: A tag <style> é utilizada para definir estilos CSS internos, ou seja, estilos que são aplicados diretamente dentro do documento HTML. Já a tag <link> é usada para vincular um arquivo CSS externo ao documento HTML, permitindo que os estilos sejam definidos em um arquivo separado. Nesse caso, usamos a tag <link>, por esse ser um arquivo CSS dedicado e externo.*/
+
 .roxo{
     color:rgb(110, 53, 201);
 }
@@ -29,6 +32,73 @@
     font-size: 20pt;
 }
 
-#sublinhado{
+.sublinhado{
     text-decoration: underline;
+}
+
+.pontilhada{
+    border-style: dotted;
+}
+
+.tracejada{
+    border-style: dashed;
+}
+
+.solida{
+    border-style: solid;
+}
+
+.dupla{
+    border-style: double;
+}
+
+.superior{
+    border-style: inset;
+}
+
+.inferior{
+    border-style: outset;
+}
+
+.body {
+    background-color: black; color: white;
+  }
+
+.destaque {
+    background-color: yellow; color: black; font-weight: bold;
+  }
+
+img#CSS {
+    position: absolute;
+    top: 0%;
+    right: 10%;
+}
+
+img#Java {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+}
+
+img#book2{
+    position: absolute;
+    top:32%;
+    left: 25%;
+}
+
+img#book1{
+    position: absolute;
+    top:32%;
+    left: 0%;
+}
+
+.txt{
+    margin-left: 50%;
+    font-family: "Arial", sans-serif;
+}
+
+img#FEI{
+    position: absolute;
+    bottom:0%;
+    right: 0%;
 }
