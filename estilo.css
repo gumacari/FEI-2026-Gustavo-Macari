@@ -22,7 +22,7 @@
     color: white;
 }
 
-.body{
+.b{
     background-color: #121212;
     color: #ffffff;
 }
@@ -70,25 +70,25 @@
 
 img#CSS {
     position: absolute;
-    top: 0%;
-    right: 10%;
+    top: 14%;
+    right: 1%;
 }
 
 img#Java {
     position: absolute;
-    top: 0%;
-    right: 0%;
+    top: 13.8%;
+    right: 4%;
 }
 
 img#book2{
     position: absolute;
-    top:32%;
+    top:35%;
     left: 25%;
 }
 
 img#book1{
     position: absolute;
-    top:32%;
+    top:35%;
     left: 0%;
 }
 
@@ -101,4 +101,15 @@ img#FEI{
     position: absolute;
     bottom:0%;
     right: 0%;
+}
+
+.dark-mode {
+    background-color: black;
+    color: white;
+}
+
+.borda {
+    border: 2px solid rgb(253, 213, 104);
+    padding: 10px;
+    margin: 20px;
 }
