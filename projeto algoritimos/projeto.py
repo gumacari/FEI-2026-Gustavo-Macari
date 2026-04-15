@@ -25,12 +25,19 @@ def login():
         else:
             print('Senha inválida.\n')
 
+#Função responsável por buscar os vídeos de acordo com o nome atribuido a eles.
+def busca_video():
+    print('\nBuscar Vídeo')
+    pesquisa_video = str(input('Procurar: '))
+    
 
 #Interface inicial do programa "FEItv".
 print('FEItv')
 while True:
-    escolha = int(input('1- Cadastrar novo usuário\n2- Login de usuário\n3- Buscar vídeo por nome\n4- Listar informações de vídeos listados\n5- Curtir e descurtir vídeos\n6- Gerenciar favoritos\n7- Sair do programa\n----------------------------------------\nEscolha uma funcionalidade: '))
+    escolha = int(input('1- Cadastrar novo usuário\n2- Login de usuário\n3- Buscar vídeo por nome\n4- Informações sobre vídeos listados\n5- Curtir e descurtir vídeos\n6- Gerenciar favoritos\n7- Sair do programa\n----------------------------------------\nEscolha uma funcionalidade: '))
     if escolha == 1:
         cadastro()
     elif escolha == 2:
-        login()
+        login() 
+    elif escolha == 3:
+        busca_video()
