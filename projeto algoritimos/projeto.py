@@ -1,13 +1,17 @@
 #Importa o módulo 'os', permitindo que o código interaja com o sistema operacional, verificando a existência dos arquivos txt responsaveis para o funcionamento ideal do código.
 import os
-print("Executando em:", os.getcwd())
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+CAMINHO_USUARIOS = os.path.join(BASE_DIR, 'usuarios.txt')
+CAMINHO_VIDEOS = os.path.join(BASE_DIR, 'videos.txt')
 
 # Função para carregar usuários do arquivo.
 def carregar_usuarios():
     usuario = []
     senha = []
-    if os.path.exists('usuarios.txt'):
-        with open('usuarios.txt', 'r') as f:
+    if os.path.exists(CAMINHO_USUARIOS):
+        with open(CAMINHO_USUARIOS, 'r') as f:
             for line in f:
                 if ':' in line:
                     u, s = line.strip().split(':', 1)
@@ -17,15 +21,15 @@ def carregar_usuarios():
 
 # Função para salvar usuários no arquivo. 
 def salvar_usuarios(usuario, senha):
-    with open('usuarios.txt', 'w') as f:
+    with open(CAMINHO_USUARIOS, 'w') as f:
         for u, s in zip(usuario, senha):
             f.write(f'{u}:{s}\n')
 
 # Função para carregar vídeos do arquivo.
 def carregar_videos():
     videos = []
-    if os.path.exists('videos.txt'):
-        with open('videos.txt', 'r') as f:
+    if os.path.exists(CAMINHO_VIDEOS):
+        with open(CAMINHO_VIDEOS, 'r') as f:
             videos = [line.strip() for line in f]
     return videos
 
