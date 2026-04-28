@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Home</title>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+        let canvas = document.getElementById('canvas');
+        q1 = canvas.getContext('2d');
+        q2 = canvas.getContext('2d');
+        q3 = canvas.getContext('2d');
+        q4 = canvas.getContext('2d');
+        q5 = canvas.getContext('2d');
+        q6 = canvas.getContext('2d');
+        q7 = canvas.getContext('2d');
+        q8 = canvas.getContext('2d');
+        q9 = canvas.getContext('2d');
+        l1 = canvas.getContext('2d');
+        l2 = canvas.getContext('2d');
+        l3 = canvas.getContext('2d');
+        l4 = canvas.getContext('2d');
+        hc1 = canvas.getContext('2d');
+        hc2 = canvas.getContext('2d');
+
+        q1.beginPath();
+        q1.lineWidth = 2;
+        q1.fillStyle = 'blue';
+        q1.strokeStyle = 'blue';
+        q1.fillRect(0,0,70,70);
+        q1.strokeRect(0,0,70,70);
+        q1.closePath();
+
+        q2.beginPath();
+        q2.lineWidth = 2;
+        q2.fillStyle = 'red';
+        q2.strokeStyle = 'red';
+        q2.fillRect(330,0,70,70);
+        q2.strokeRect(330,0,70,70);
+        q2.closePath();
+
+        q3.beginPath();
+        q3.lineWidth = 2;
+        q3.fillStyle = 'yellow';
+        q3.strokeStyle = 'yellow';
+        q3.fillRect(0,350,100,50);
+        q3.strokeRect(0,350,100,50);
+        q3.closePath();
+
+        q4.beginPath();
+        q4.lineWidth = 2;
+        q4.fillStyle = 'yellow';
+        q4.strokeStyle = 'yellow';
+        q4.fillRect(0,300,50,100);
+        q4.strokeRect(0,300,50,100);
+        q4.closePath();
+
+        q5.beginPath();
+        q5.lineWidth = 2;
+        q5.fillStyle = 'black';
+        q5.strokeStyle = 'black';
+        q5.fillRect(350,300,50,100);
+        q5.strokeRect(350,300,50,100);
+        q5.closePath();
+
+        q6.beginPath();
+        q6.lineWidth = 2;
+        q6.fillStyle = 'black';
+        q6.strokeStyle = 'black';
+        q6.fillRect(300,350,50,50);
+        q6.strokeRect(300,350,50,50);
+        q6.closePath();
+
+        q7.beginPath();
+        q7.lineWidth = 2;
+        q7.fillStyle = 'cyan';
+        q7.strokeStyle = 'cyan';
+        q7.fillRect(0,160,40,80);
+        q7.strokeRect(0,160,40,80);
+        q7.closePath();
+
+        q8.beginPath();
+        q8.lineWidth = 2;
+        q8.fillStyle = 'cyan';
+        q8.strokeStyle = 'cyan';
+        q8.fillRect(360,180,40,40);
+        q8.strokeRect(360,180,40,40);
+        q8.closePath();
+
+        q9.beginPath();
+        q9.lineWidth = 2;
+        q9.fillStyle = 'red';
+        q9.strokeStyle = 'red';
+        q9.fillRect(160,200,40,40);
+        q9.strokeRect(160,200,40,40);
+        q9.closePath();
+
+        l1.beginPath();
+        l1.lineWidth = 2;
+        l1.fillStyle = 'blue';
+        l1.strokeStyle = 'blue';
+        l1.moveTo(0,0);
+        l1.lineTo(200,200);
+        l1.fill();
+        l1.stroke();
+        l1.closePath();
+
+        l2.beginPath();
+        l2.lineWidth = 2;
+        l2.fillStyle = 'red';
+        l2.strokeStyle = 'red';
+        l2.moveTo(400,0);
+        l2.lineTo(200,200);
+        l2.fill();
+        l2.stroke();
+        l2.closePath();
+
+        l3.beginPath();
+        l3.lineWidth = 2;
+        l3.fillStyle = 'green';
+        l3.strokeStyle = 'green';
+        l3.moveTo(0,200);
+        l3.lineTo(400,200);
+        l3.fill();
+        l3.stroke();
+        l3.closePath();
+
+        l4.beginPath();
+        l4.lineWidth = 2;
+        l4.fillStyle = 'black';
+        l4.strokeStyle = 'black';
+        l4.moveTo(200,200);
+        l4.lineTo(200,400);
+        l4.fill();
+        l4.stroke();
+        l4.closePath();
+
+        hc1.beginPath();
+        hc1.lineWidth = 1;
+        hc1.fillStyle = 'cyan';
+        hc1.strokeStyle = 'green';
+        hc1.arc(200,400,50,Math.PI,2*Math.PI);
+        hc1.fill();
+        hc1.stroke();
+        hc1.closePath();
+
+    </script>
+</body>
+</html>
