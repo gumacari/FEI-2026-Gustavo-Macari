@@ -1,5 +1,6 @@
 #Importa o módulo 'os', permitindo que o código interaja com o sistema operacional, verificando a existência dos arquivos txt responsaveis para o funcionamento ideal do código.
 import os
+print("Executando em:", os.getcwd())
 
 # Função para carregar usuários do arquivo.
 def carregar_usuarios():
@@ -14,7 +15,7 @@ def carregar_usuarios():
                     senha.append(s)
     return usuario, senha
 
-# Função para salvar usuários no arquivo.
+# Função para salvar usuários no arquivo. 
 def salvar_usuarios(usuario, senha):
     with open('usuarios.txt', 'w') as f:
         for u, s in zip(usuario, senha):
