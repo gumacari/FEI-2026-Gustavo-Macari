@@ -1,94 +1,179 @@
-# Importa o módulo 'os', permitindo que o código interaja com o sistema operacional, verificando a existência dos arquivos txt responsaveis para o funcionamento ideal do código.
-import os # OS = Operational System (Sistema Operacional)
+# Programa simples para gerenciar usuários e vídeos
+# Usamos arquivos de texto para armazenar dados
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-CAMINHO_USUARIOS = os.path.join(BASE_DIR, 'usuarios.txt')
-CAMINHO_VIDEOS = os.path.join(BASE_DIR, 'videos.txt')
+# Nomes dos arquivos (assumindo que estão na mesma pasta do programa)
+CAMINHO_USUARIOS = 'usuarios.txt'
+CAMINHO_VIDEOS = 'videos.txt'
 
 # Função para carregar usuários do arquivo.
-# Formato: usuario:senha|curtidas(separadas por vírgula)|favoritos(separados por vírgula)
+# Formato salvo: usuario:senha|curtidas|favoritos
 def carregar_usuarios():
-    usuario = []
-    senha = []
-    dados_usuario = {}  # Dict para guardar curtidas e favoritos
-    if os.path.exists(CAMINHO_USUARIOS):
-        with open(CAMINHO_USUARIOS, 'r') as f:
-            for line in f:
-                if ':' in line:
-                    partes = line.strip().split('|')
-                    u, s = partes[0].split(':', 1)
-                    usuario.append(u) # Adiciona um novo usuário
-                    senha.append(s) # Adiciona a senha referente ao usuário
-                    
-                    # Extrai curtidas e favoritos se existirem
-                    curtidas_lista = partes[1].split(',') if len(partes) > 1 and partes[1] else []
-                    favoritos_lista = partes[2].split(',') if len(partes) > 2 and partes[2] else []
-                    dados_usuario[u] = {
-                        'curtidas': [c for c in curtidas_lista if c],
-                        'favoritos': [f for f in favoritos_lista if f]
-                    }
-    return usuario, senha, dados_usuario
+    usuario = [] # Lista de nomes de usuários
+    senha = [] # Lista de senhas
+    curtidas = [] # Lista de curtidas (lista de listas)
+    favoritos = [] # Lista de favoritos (lista de listas)
+    
+    try:
+        arquivo = open(CAMINHO_USUARIOS, 'r')
+        for linha in arquivo:
+            if ':' in linha:
+                linha = linha.strip() # Remove espaços extras
+                
+                # Divide em usuario:senha e dados
+                partes = linha.split('|')
+                nome_e_senha = partes[0]
+                
+                # Divide nome e senha
+                pos = nome_e_senha.find(':')
+                nome = nome_e_senha[0:pos]
+                pass_word = nome_e_senha[pos+1:]
+                
+                usuario.append(nome)
+                senha.append(pass_word)
+                
+                # Extrai curtidas
+                curt = []
+                if len(partes) > 1 and partes[1] != '':
+                    curt_lista = partes[1].split(',')
+                    for c in curt_lista:
+                        if c != '':
+                            curt.append(c)
+                curtidas.append(curt)
+                
+                # Extrai favoritos
+                fav = []
+                if len(partes) > 2 and partes[2] != '':
+                    fav_lista = partes[2].split(',')
+                    for f in fav_lista:
+                        if f != '':
+                            fav.append(f)
+                favoritos.append(fav)
+        
+        arquivo.close()
+    except:
+        # Se o arquivo não existe, começa vazio
+        pass
+    
+    return usuario, senha, curtidas, favoritos
 
 # Função para salvar usuários no arquivo.
-def salvar_usuarios(usuario, senha, dados_usuario):
-    with open(CAMINHO_USUARIOS, 'w') as f:
-        for u, s in zip(usuario, senha):
-            curtidas = ','.join(dados_usuario.get(u, {}).get('curtidas', []))
-            favoritos = ','.join(dados_usuario.get(u, {}).get('favoritos', []))
-            f.write(f'{u}:{s}|{curtidas}|{favoritos}\n')
+def salvar_usuarios(usuario, senha, curtidas, favoritos):
+    arquivo = open(CAMINHO_USUARIOS, 'w')
+    
+    i = 0
+    while i < len(usuario):
+        nome = usuario[i]
+        pass_word = senha[i]
+        
+        # Junta as curtidas com vírgula
+        curtidas_str = ''
+        j = 0
+        while j < len(curtidas[i]):
+            if j > 0:
+                curtidas_str = curtidas_str + ','
+            curtidas_str = curtidas_str + curtidas[i][j]
+            j = j + 1
+        
+        # Junta os favoritos com vírgula
+        favoritos_str = ''
+        j = 0
+        while j < len(favoritos[i]):
+            if j > 0:
+                favoritos_str = favoritos_str + ','
+            favoritos_str = favoritos_str + favoritos[i][j]
+            j = j + 1
+        
+        # Escreve no arquivo
+        linha = nome + ':' + pass_word + '|' + curtidas_str + '|' + favoritos_str + '\n'
+        arquivo.write(linha)
+        
+        i = i + 1
+    
+    arquivo.close()
 
 # Função para carregar vídeos do arquivo.
 def carregar_videos():
     videos = []
-    if os.path.exists(CAMINHO_VIDEOS):
-        with open(CAMINHO_VIDEOS, 'r') as f:
-            videos = [line.strip() for line in f]
+    try:
+        arquivo = open(CAMINHO_VIDEOS, 'r')
+        for linha in arquivo:
+            linha = linha.strip() # Remove espaços extras
+            videos.append(linha)
+        arquivo.close()
+    except:
+        # Se o arquivo não existe, começa vazio
+        pass
     return videos
 
 # Carregar dados iniciais.
-usuario, senha, dados_usuario = carregar_usuarios()
+usuario, senha, curtidas, favoritos = carregar_usuarios()
 videos = carregar_videos()
 
 # Função responsável pelo cadastro dos usuários.
 def cadastro():
     print('\nCadastro de usuário')
-    nome_cadastro = str(input('Nome do usuário: '))
-    if nome_cadastro in usuario:
+    nome_cadastro = input('Nome do usuário: ')
+    
+    # Verifica se o usuário já existe
+    existe = False
+    for u in usuario:
+        if u == nome_cadastro:
+            existe = True
+    
+    if existe:
         print('Usuário já cadastrado.\n')
         return
-    senha_cadastro = str(input('Defina sua senha: '))
+    
+    senha_cadastro = input('Defina sua senha: ')
     usuario.append(nome_cadastro)
     senha.append(senha_cadastro)
-    dados_usuario[nome_cadastro] = {'curtidas': [], 'favoritos': []}
-    salvar_usuarios(usuario, senha, dados_usuario)
-    print(f'Usuário {nome_cadastro} cadastrado com sucesso!\n')
+    curtidas.append([])
+    favoritos.append([])
+    salvar_usuarios(usuario, senha, curtidas, favoritos)
+    print('Usuário ' + nome_cadastro + ' cadastrado com sucesso!\n')
 
 # Função responsável pelo login dos usuários.
 def login():
     print('\nLogin')
-    nome_login = str(input('Nome do usuário: '))
-    if nome_login not in usuario:
+    nome_login = input('Nome do usuário: ')
+    
+    # Procura o usuário na lista
+    indice = -1
+    i = 0
+    while i < len(usuario):
+        if usuario[i] == nome_login:
+            indice = i
+        i = i + 1
+    
+    if indice == -1:
         print('Usuário não cadastrado.\n')
+        return None
+    
+    senha_login = input('Senha: ')
+    if senha[indice] == senha_login:
+        print('Login realizado com sucesso!\n')
+        return nome_login
     else:
-        senha_login = str(input('Senha: '))
-        indice = usuario.index(nome_login)
-        if senha[indice] == senha_login:
-            print('Login realizado com sucesso!\n')
-            return nome_login  # Retornar o usuário logado para progresso.
-        else:
-            print('Senha inválida.\n')
+        print('Senha inválida.\n')
+    
     return None
 
 # Função responsável por buscar os vídeos de acordo com o nome atribuido a eles.
 def busca_video():
     print('\nBuscar Vídeo')
-    pesquisa_video = str(input('Procurar: '))
-    encontrados = [v for v in videos if pesquisa_video.lower() in v.lower()]
-    if encontrados:
+    pesquisa_video = input('Procurar: ')
+    pesquisa_video = pesquisa_video.lower()
+    
+    encontrados = []
+    for v in videos:
+        v_lower = v.lower()
+        if pesquisa_video in v_lower:
+            encontrados.append(v)
+    
+    if len(encontrados) > 0:
         print('Vídeos encontrados:')
         for v in encontrados:
-            print(f'- {v}')
+            print('- ' + v)
     else:
         print('Nenhum vídeo encontrado.')
     print()
@@ -96,45 +181,79 @@ def busca_video():
 # Função responsável por listar as infromações dos videos presentes no arquivo 'txt'.
 def informacoes_videos():
     print('\nInformações sobre vídeos listados')
-    if videos:
-        print(f'Total de vídeos: {len(videos)}')
-        for i, v in enumerate(videos, 1):
-            print(f'{i}. {v}')
+    if len(videos) > 0:
+        print('Total de vídeos: ' + str(len(videos)))
+        i = 1
+        for v in videos:
+            print(str(i) + '. ' + v)
+            i = i + 1
     else:
         print('Nenhum vídeo cadastrado.')
     print()
 # Função encarregada de permitir ao usuário curtir ou descurtir os videos presentes.
 def curtir_video(usuario_logado):
-    if not usuario_logado:
+    if usuario_logado == None:
         print('Você precisa estar logado para curtir vídeos.\n')
         return
     
     print('\nCurtir vídeo')
     informacoes_videos()
-    nome_video = str(input('Nome do vídeo para curtir/descurtir: '))
+    nome_video = input('Nome do vídeo para curtir/descurtir: ')
     
     # Verifica se o vídeo existe
-    video_existe = any(nome_video.lower() in v.lower() for v in videos)
+    video_existe = False
+    nome_video_lower = nome_video.lower()
+    for v in videos:
+        v_lower = v.lower()
+        if nome_video_lower in v_lower:
+            video_existe = True
     
     if not video_existe:
         print('Vídeo não encontrado.\n')
         return
     
-    # Verifica se já foi curtido
-    if nome_video in dados_usuario[usuario_logado]['curtidas']:
-        dados_usuario[usuario_logado]['curtidas'].remove(nome_video)
-        print(f'Você removeu a curtida de: {nome_video}\n')
-    else:
-        dados_usuario[usuario_logado]['curtidas'].append(nome_video)
-        print(f'Você curtiu: {nome_video}\n')
+    # Encontra o índice do usuário logado
+    indice_usuario = -1
+    i = 0
+    while i < len(usuario):
+        if usuario[i] == usuario_logado:
+            indice_usuario = i
+        i = i + 1
     
-    salvar_usuarios(usuario, senha, dados_usuario)
+    # Verifica se já foi curtido
+    ja_curtiu = False
+    pos = -1
+    j = 0
+    while j < len(curtidas[indice_usuario]):
+        if curtidas[indice_usuario][j] == nome_video:
+            ja_curtiu = True
+            pos = j
+        j = j + 1
+    
+    if ja_curtiu:
+        # Remove a curtida
+        curtidas[indice_usuario].pop(pos)
+        print('Você removeu a curtida de: ' + nome_video + '\n')
+    else:
+        # Adiciona a curtida
+        curtidas[indice_usuario].append(nome_video)
+        print('Você curtiu: ' + nome_video + '\n')
+    
+    salvar_usuarios(usuario, senha, curtidas, favoritos)
 
 # Função para o gerenciamento dos videos listados como favoritos pelo usuário.
 def gerenciar_favoritos(usuario_logado):
-    if not usuario_logado:
+    if usuario_logado == None:
         print('Você precisa estar logado para gerenciar favoritos.\n')
         return
+    
+    # Encontra o índice do usuário logado
+    indice_usuario = -1
+    i = 0
+    while i < len(usuario):
+        if usuario[i] == usuario_logado:
+            indice_usuario = i
+        i = i + 1
     
     print('\nGerenciar favoritos')
     
@@ -148,51 +267,79 @@ def gerenciar_favoritos(usuario_logado):
         # Adiciona o vídeo aos favoritos:
         if opcao == '1':
             informacoes_videos()
-            nome_video = str(input('Nome do vídeo para adicionar aos favoritos: '))
+            nome_video = input('Nome do vídeo para adicionar aos favoritos: ')
             
-            video_existe = any(nome_video.lower() in v.lower() for v in videos)
+            # Verifica se o vídeo existe
+            video_existe = False
+            nome_video_lower = nome_video.lower()
+            for v in videos:
+                v_lower = v.lower()
+                if nome_video_lower in v_lower:
+                    video_existe = True
             
             if not video_existe:
                 print('Vídeo não encontrado.\n')
                 continue
             
-            if nome_video in dados_usuario[usuario_logado]['favoritos']:
-                print(f'{nome_video} já está nos favoritos.\n')
+            # Verifica se já está nos favoritos
+            ja_existe = False
+            j = 0
+            while j < len(favoritos[indice_usuario]):
+                if favoritos[indice_usuario][j] == nome_video:
+                    ja_existe = True
+                j = j + 1
+            
+            if ja_existe:
+                print(nome_video + ' já está nos favoritos.\n')
             else:
-                dados_usuario[usuario_logado]['favoritos'].append(nome_video)
-                print(f'{nome_video} adicionado aos favoritos!\n')
-                salvar_usuarios(usuario, senha, dados_usuario)
+                favoritos[indice_usuario].append(nome_video)
+                print(nome_video + ' adicionado aos favoritos!\n')
+                salvar_usuarios(usuario, senha, curtidas, favoritos)
         
         # Remove o vídeo dos favoritos:
         elif opcao == '2':
-            if not dados_usuario[usuario_logado]['favoritos']:
+            if len(favoritos[indice_usuario]) == 0:
                 print('Você não tem vídeos nos favoritos.\n')
                 continue
             
             print('Seus favoritos:')
-            for i, v in enumerate(dados_usuario[usuario_logado]['favoritos'], 1):
-                print(f'{i}. {v}')
+            j = 1
+            for v in favoritos[indice_usuario]:
+                print(str(j) + '. ' + v)
+                j = j + 1
             
-            nome_video = str(input('Nome do vídeo para remover dos favoritos: '))
+            nome_video = input('Nome do vídeo para remover dos favoritos: ')
             
-            if nome_video in dados_usuario[usuario_logado]['favoritos']:
-                dados_usuario[usuario_logado]['favoritos'].remove(nome_video)
-                print(f'{nome_video} removido dos favoritos!\n')
-                salvar_usuarios(usuario, senha, dados_usuario)
+            # Procura o vídeo nos favoritos
+            encontrou = False
+            pos = -1
+            j = 0
+            while j < len(favoritos[indice_usuario]):
+                if favoritos[indice_usuario][j] == nome_video:
+                    encontrou = True
+                    pos = j
+                j = j + 1
+            
+            if encontrou:
+                favoritos[indice_usuario].pop(pos)
+                print(nome_video + ' removido dos favoritos!\n')
+                salvar_usuarios(usuario, senha, curtidas, favoritos)
             else:
                 print('Vídeo não encontrado nos favoritos.\n')
         
         # Mostra os videos salvos como favoritos, caso haja ao menos um:
         elif opcao == '3':
-            if not dados_usuario[usuario_logado]['favoritos']:
+            if len(favoritos[indice_usuario]) == 0:
                 print('Você não tem vídeos nos favoritos.\n')
             else:
-                print(f'\nSeus favoritos ({len(dados_usuario[usuario_logado]["favoritos"])}):')
-                for i, v in enumerate(dados_usuario[usuario_logado]['favoritos'], 1):
-                    print(f'{i}. {v}')
+                print('\nSeus favoritos (' + str(len(favoritos[indice_usuario])) + '):')
+                j = 1
+                for v in favoritos[indice_usuario]:
+                    print(str(j) + '. ' + v)
+                    j = j + 1
                 print()
         
-        # Menu principal:
+        # Menu principal
         elif opcao == '4':
             break
         
@@ -203,10 +350,11 @@ def gerenciar_favoritos(usuario_logado):
 print('FEItv')
 usuario_logado = None
 while True:
-
-    #Tentara executar o programa da forma correta, como feito para ser executado.
+    # Tenta executar o programa da forma correta
     try:
-        escolha = int(input('1- Cadastrar novo usuário\n2- Login de usuário\n3- Buscar vídeo por nome\n4- Informações sobre vídeos listados\n5- Curtir e descurtir vídeos\n6- Gerenciar favoritos\n7- Sair do programa\n----------------------------------------\nEscolha uma funcionalidade: '))
+        mensagem = '1- Cadastrar novo usuário\n2- Login de usuário\n3- Buscar vídeo por nome\n4- Informações sobre vídeos listados\n5- Curtir e descurtir vídeos\n6- Gerenciar favoritos\n7- Sair do programa\n----------------------------------------\nEscolha uma funcionalidade: '
+        escolha = int(input(mensagem))
+        
         if escolha == 1:
             cadastro()
         elif escolha == 2:
@@ -224,7 +372,7 @@ while True:
             break
         else:
             print('Opção inválida.\n')
-
-    #Caso um erro de valor ocorra:
+    
+    # Caso um erro de valor ocorra:
     except ValueError:
         print('Entrada inválida. Por favor, digite um número.\n')
