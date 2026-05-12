@@ -1,0 +1,48 @@
+SPACESHOOTER | Um projeto acadêmico desenvolvido por mim, Gustavo Macari Silva (RA: 72.126.027-1) inspirado nos clássicos 'jogos de nave' que dominavam o mercado antigamente. Projeto desenvolvido através de HTML, CSS e JavaScript.
+
+Estruturação do projeto:
+
+SpaceShooter (Projeto)
+├── main.html        # Página inicial
+├── about.html       # Página sobre o projeto e o autor
+├── game.html        # Página do jogo
+├── game.js          # Lógica completa do jogo
+├── style.css        # Estilo visual de todas as páginas
+└── assets/
+    ├── alien.png    # Sprite do inimigo
+    ├── ship.png     # Sprite da nave do jogador
+    ├── galaxy.jpg   # Imagem de fundo decorativa
+    ├── dev.png      # Imagem do desenvolvedor (sobre)
+    └── dev.jpg      # Variante da 'imagem do desenvolvedor'
+
+Páginas HTML:
+
+main.html - Página responsável pela apresentação do projeto. Explica o que é o SpaceShooter, sua inspiração principalmente no jogo Galaga, e ensina o básico sobre como jogar.
+
+about.html - Página com informações sobre o autor e o processo de criação e desenvolvimento do projeto, incluindo ideias descartadas antes do real desenvolvimento do projeto tomar oo rumo que tomou.
+
+game.html - Página onde o jogo está embarcado, carregando o arquivo em JavaScript para que tudo funcione devidamente.
+
+Como Jogar | Básico:
+
+Use as setas (esquerda e direita) para se movimentar, a tecla espaço para disparar projéteis e impeça que os aliens cheguem até o limite da tela pela maior quantidade de tempo possível. Acumule o máximo de pontos que conseguir antes de ser eliminado.
+
+Como o Jogo Funciona | Principais Conceitos:
+
+O jogo é estruturado através de um loop de animações que roda constantemente enquanto ele esta sendo executado, usando o comando 'requestAnimationFrame'. Nesse loop, estão presentes duas funções principais:
+
+Update() Lógica - Move o jogador conforme as teclas são pressionadas, gera novos inimigos constantemente (70 frames) em posições aleatórias, controla o movimento dos tiros e dos inimigos, assim como a direção dos mesmos, detecta colisões e define 'game over' quando as condições são atendidas.
+
+Draw() Renderização - Limpa a tela e desenha o fundo preto, renderiza os elementos do jogo (nave e aliens), exibe o placar e o 'game over' quando necessário
+
+IMPORTANTE (state) - Contém todas as variáveis dentro de um objeto, ou seja, carrega todas as informações mais importantes e necessárias do jogo.
+
+Apanhado Geral | Resumo:
+
+HTML5 - Estrutura das páginas, documentação e Canvas
+CSS3 - Estilização e layout responsivo
+JavaScript (ES6) - Lógica do jogo, animações e controles
+
+Gustavo Macari Silva
+Estudante de Ciências da Computação — FEI
+RA: 72.126.027-1
